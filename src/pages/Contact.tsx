@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Mail, MessageSquare, AlertTriangle, Send, CheckCircle } from 'lucide-react';
 import Header from '@/components/Header';
 import { useToast } from '@/hooks/use-toast';
@@ -16,7 +17,9 @@ const Contact = () => {
     email: '',
     type: 'business',
     subject: '',
-    message: ''
+    message: '',
+    company: '',
+    urgency: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -53,12 +56,51 @@ const Contact = () => {
     }));
   };
 
+  type FormField = {
+    name: string;
+    label: string;
+    type: string;
+    placeholder?: string;
+    options?: string[];
+  };
+
+  const getFormFields = (): FormField[] => {
+    const baseFields: FormField[] = [
+      { name: 'name', label: 'Nombre *', type: 'text', placeholder: 'Tu nombre completo' },
+      { name: 'email', label: 'Email *', type: 'email', placeholder: 'tu@email.com' },
+    ];
+
+    switch (formData.type) {
+      case 'business':
+        return [
+          ...baseFields,
+          { name: 'company', label: 'Empresa', type: 'text', placeholder: 'Nombre de tu empresa (opcional)' },
+          { name: 'subject', label: 'Tipo de Propuesta *', type: 'text', placeholder: 'Colaboración, Partnership, Publicidad, etc.' }
+        ];
+      case 'report':
+        return [
+          ...baseFields,
+          { name: 'urgency', label: 'Urgencia *', type: 'select', options: ['Baja', 'Media', 'Alta', 'Crítica'] },
+          { name: 'subject', label: 'Tipo de Problema *', type: 'text', placeholder: 'Bug, Contenido inapropiado, Error técnico, etc.' }
+        ];
+      case 'other':
+      default:
+        return [
+          ...baseFields,
+          { name: 'subject', label: 'Asunto *', type: 'text', placeholder: '¿De qué se trata tu mensaje?' }
+        ];
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     // Basic validation
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    const requiredFields = ['name', 'email', 'subject', 'message'];
+    const missing = requiredFields.filter(field => !formData[field as keyof typeof formData]);
+    
+    if (missing.length > 0) {
       toast({
         title: "Error",
         description: "Por favor completa todos los campos requeridos.",
@@ -83,7 +125,9 @@ const Contact = () => {
         email: '',
         type: 'business',
         subject: '',
-        message: ''
+        message: '',
+        company: '',
+        urgency: ''
       });
     } catch (error) {
       toast({
@@ -152,44 +196,122 @@ const Contact = () => {
                     </RadioGroup>
                   </div>
 
-                  {/* Name and Email */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="name">Nombre *</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Tu nombre completo"
-                        required
-                        className="mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email">Email *</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="tu@email.com"
-                        required
-                        className="mt-1"
-                      />
-                    </div>
+                  {/* Dynamic Form Fields */}
+                  <div className="space-y-4">
+                    {getFormFields().map((field) => (
+                      <div key={field.name} className={field.name === 'name' || field.name === 'email' ? 'md:col-span-1' : 'md:col-span-2'}>
+                        {field.name === 'name' || field.name === 'email' ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label htmlFor="name">Nombre *</Label>
+                              <Input
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                placeholder="Tu nombre completo"
+                                required
+                                className="mt-1"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="email">Email *</Label>
+                              <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                placeholder="tu@email.com"
+                                required
+                                className="mt-1"
+                              />
+                            </div>
+                          </div>
+                        ) : field.type === 'select' ? (
+                          <div>
+                            <Label htmlFor={field.name}>{field.label}</Label>
+                            <Select onValueChange={(value) => setFormData(prev => ({ ...prev, [field.name]: value }))}>
+                              <SelectTrigger className="mt-1">
+                                <SelectValue placeholder={`Selecciona ${field.label.toLowerCase()}`} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {field.options?.map((option) => (
+                                  <SelectItem key={option} value={option.toLowerCase()}>
+                                    {option}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        ) : (
+                          <div>
+                            <Label htmlFor={field.name}>{field.label}</Label>
+                            <Input
+                              id={field.name}
+                              name={field.name}
+                              type={field.type}
+                              value={formData[field.name as keyof typeof formData] || ''}
+                              onChange={handleInputChange}
+                              placeholder={field.placeholder || ''}
+                              required={field.label.includes('*')}
+                              className="mt-1"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )).slice(0, 1)}
                   </div>
 
-                  {/* Subject */}
+                  {/* Additional Fields Based on Type */}
+                  {formData.type === 'business' && (
+                    <div>
+                      <Label htmlFor="company">Empresa</Label>
+                      <Input
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        placeholder="Nombre de tu empresa (opcional)"
+                        className="mt-1"
+                      />
+                    </div>
+                  )}
+
+                  {formData.type === 'report' && (
+                    <div>
+                      <Label htmlFor="urgency">Urgencia *</Label>
+                      <Select onValueChange={(value) => setFormData(prev => ({ ...prev, urgency: value }))}>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="Selecciona el nivel de urgencia" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="baja">Baja</SelectItem>
+                          <SelectItem value="media">Media</SelectItem>
+                          <SelectItem value="alta">Alta</SelectItem>
+                          <SelectItem value="critica">Crítica</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Subject Field */}
                   <div>
-                    <Label htmlFor="subject">Asunto *</Label>
+                    <Label htmlFor="subject">
+                      {formData.type === 'business' ? 'Tipo de Propuesta *' : 
+                       formData.type === 'report' ? 'Tipo de Problema *' : 
+                       'Asunto *'}
+                    </Label>
                     <Input
                       id="subject"
                       name="subject"
                       value={formData.subject}
                       onChange={handleInputChange}
-                      placeholder="¿De qué se trata tu mensaje?"
+                      placeholder={
+                        formData.type === 'business' ? 'Colaboración, Partnership, Publicidad, etc.' :
+                        formData.type === 'report' ? 'Bug, Contenido inapropiado, Error técnico, etc.' :
+                        '¿De qué se trata tu mensaje?'
+                      }
                       required
                       className="mt-1"
                     />
