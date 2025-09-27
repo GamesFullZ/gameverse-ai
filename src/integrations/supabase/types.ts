@@ -123,6 +123,7 @@ export type Database = {
           created_at: string | null
           description: string
           developer: string | null
+          direct_link: string | null
           download_count: number | null
           favorite_count: number | null
           file_size: string | null
@@ -131,6 +132,7 @@ export type Database = {
           image_url: string | null
           is_active: boolean | null
           is_featured: boolean | null
+          mediafire_link: string | null
           name: string
           password: string | null
           publisher: string | null
@@ -138,8 +140,10 @@ export type Database = {
           release_date: string | null
           requirements_min: string | null
           requirements_recommended: string | null
+          screenshots: string[] | null
           short_description: string | null
           slug: string
+          tags: string[] | null
           trailer_url: string | null
           updated_at: string | null
           version: string | null
@@ -150,6 +154,7 @@ export type Database = {
           created_at?: string | null
           description: string
           developer?: string | null
+          direct_link?: string | null
           download_count?: number | null
           favorite_count?: number | null
           file_size?: string | null
@@ -158,6 +163,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean | null
           is_featured?: boolean | null
+          mediafire_link?: string | null
           name: string
           password?: string | null
           publisher?: string | null
@@ -165,8 +171,10 @@ export type Database = {
           release_date?: string | null
           requirements_min?: string | null
           requirements_recommended?: string | null
+          screenshots?: string[] | null
           short_description?: string | null
           slug: string
+          tags?: string[] | null
           trailer_url?: string | null
           updated_at?: string | null
           version?: string | null
@@ -177,6 +185,7 @@ export type Database = {
           created_at?: string | null
           description?: string
           developer?: string | null
+          direct_link?: string | null
           download_count?: number | null
           favorite_count?: number | null
           file_size?: string | null
@@ -185,6 +194,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean | null
           is_featured?: boolean | null
+          mediafire_link?: string | null
           name?: string
           password?: string | null
           publisher?: string | null
@@ -192,8 +202,10 @@ export type Database = {
           release_date?: string | null
           requirements_min?: string | null
           requirements_recommended?: string | null
+          screenshots?: string[] | null
           short_description?: string | null
           slug?: string
+          tags?: string[] | null
           trailer_url?: string | null
           updated_at?: string | null
           version?: string | null
@@ -264,6 +276,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
       }
       reserved_usernames: {
         Row: {
