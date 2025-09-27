@@ -2,17 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Zap, Sparkles, ArrowRight } from 'lucide-react';
 import heroImage from '@/assets/hero-gaming.jpg';
-
 const Hero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Gaming Hero Background"
-          className="w-full h-full object-cover"
-        />
+        <img src={heroImage} alt="Gaming Hero Background" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-background/80" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
       </div>
@@ -21,8 +15,12 @@ const Hero = () => {
       <div className="absolute inset-0 z-10">
         <div className="absolute top-20 left-20 w-2 h-2 bg-primary rounded-full animate-pulse" />
         <div className="absolute top-40 right-32 w-1 h-1 bg-secondary rounded-full animate-ping" />
-        <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/3 right-20 w-1 h-1 bg-primary-glow rounded-full animate-ping" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-accent rounded-full animate-pulse" style={{
+        animationDelay: '1s'
+      }} />
+        <div className="absolute top-1/3 right-20 w-1 h-1 bg-primary-glow rounded-full animate-ping" style={{
+        animationDelay: '2s'
+      }} />
       </div>
 
       <div className="relative z-20 container mx-auto px-4 text-center">
@@ -36,7 +34,9 @@ const Hero = () => {
         </div>
 
         {/* Main Title */}
-        <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <div className="animate-fade-in" style={{
+        animationDelay: '0.2s'
+      }}>
           <h1 className="font-gaming text-6xl md:text-8xl font-black mb-6">
             <span className="text-primary">Game</span>
             <span className="text-secondary">Full</span>
@@ -50,7 +50,9 @@ const Hero = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="animate-fade-in flex flex-col sm:flex-row gap-4 justify-center mb-12" style={{ animationDelay: '0.4s' }}>
+        <div className="animate-fade-in flex flex-col sm:flex-row gap-4 justify-center mb-12" style={{
+        animationDelay: '0.4s'
+      }}>
           <Button size="lg" className="btn-gaming px-8 py-4 text-lg font-semibold">
             Explorar Juegos
             <ArrowRight className="h-5 w-5 ml-2" />
@@ -61,13 +63,15 @@ const Hero = () => {
         </div>
 
         {/* Stats */}
-        <div className="animate-fade-in grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto" style={{ animationDelay: '0.6s' }}>
+        <div className="animate-fade-in grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto" style={{
+        animationDelay: '0.6s'
+      }}>
           <div className="text-center">
-            <div className="text-3xl font-gaming font-bold text-primary mb-2">1000+</div>
+            <div className="text-3xl font-gaming font-bold text-primary mb-2">100+</div>
             <p className="text-muted-foreground">Juegos Disponibles</p>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-gaming font-bold text-secondary mb-2">50K+</div>
+            <div className="text-3xl font-gaming font-bold text-secondary mb-2">1K+</div>
             <p className="text-muted-foreground">Usuarios Activos</p>
           </div>
           <div className="text-center">
@@ -83,8 +87,6 @@ const Hero = () => {
           <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse" />
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
