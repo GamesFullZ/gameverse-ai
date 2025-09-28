@@ -375,6 +375,11 @@ const Contact = () => {
                       <span>Consultas generales</span>
                       <Badge className="bg-gradient-accent">1-2 días</Badge>
                     </div>
+                    <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+                      <p className="text-xs text-muted-foreground">
+                        <strong>Nota:</strong> No hay un tiempo asegurado de respuesta, depende de la carga de mensajes.
+                      </p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

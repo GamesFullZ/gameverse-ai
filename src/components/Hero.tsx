@@ -2,7 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Zap, Sparkles, ArrowRight } from 'lucide-react';
 import heroImage from '@/assets/hero-gaming.jpg';
-const Hero = () => {
+interface HeroProps {
+  onExploreClick?: () => void;
+}
+
+const Hero = ({ onExploreClick }: HeroProps) => {
   return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -53,12 +57,23 @@ const Hero = () => {
         <div className="animate-fade-in flex flex-col sm:flex-row gap-4 justify-center mb-12" style={{
         animationDelay: '0.4s'
       }}>
-          <Button size="lg" className="btn-gaming px-8 py-4 text-lg font-semibold">
+          <Button 
+            size="lg" 
+            className="btn-gaming text-lg px-8 py-4"
+            onClick={onExploreClick}
+          >
+            <ArrowRight className="h-5 w-5 mr-2" />
             Explorar Juegos
-            <ArrowRight className="h-5 w-5 ml-2" />
           </Button>
-          <Button size="lg" variant="outline" className="px-8 py-4 text-lg hover-glow-secondary">
-            Ver Novedades
+          <Button 
+            size="lg" 
+            variant="outline" 
+            className="text-lg px-8 py-4 hover-glow-secondary"
+            asChild
+          >
+            <a href="https://gamesfullz.github.io/" target="_blank" rel="noopener noreferrer">
+              Ver Novedades
+            </a>
           </Button>
         </div>
 
